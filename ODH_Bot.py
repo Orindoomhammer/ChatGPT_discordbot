@@ -53,14 +53,14 @@ async def on_message(message):
 
     if should_reply(message):
         prompt = f"User: {message.content}"
-        response = await get_chatgpt_response(prompt)
+        response = await on_message(prompt)
         await message.channel.send(response)
 
     await bot.process_commands(message)
 
 @bot.command(name="ODH")
 async def ask(ctx, *, question):
-    response = await get_chatgpt_response(question)
+    response = await on_message(question)
     await ctx.send(response)
 
 @bot.command()
@@ -83,6 +83,24 @@ async def code(ctx, *, request: str):
         await ctx.send(code_snippet[0])
     else:
         await ctx.send("I couldn't find a relevant code snippet for your request.")
+
+@bot.command(name="update_bot")
+async def update_bot(ctx):
+    if ctx.message.author.id == 472828401619697664:
+        if isinstance(ctx.channel, discord.DMChannel):
+            await ctx.send("Updating the bot, please wait...")
+            git_pull = subprocess.Popen("git pull", cwd=os.getcwd(), shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            stdout, stderr = git_pull.communicate()
+            os._exit(1)
+            await ctx.send(f"Update result:\n{stdout.decode('utf-8')}\n{stderr.decode('utf-8')}")
+            await ctx.send("Restarting the bot...")
+            await bot.close()
+        else:
+            await ctx.send("This command can only be used in a DM with the bot.")
+    else:
+        await ctx.send("You don't have permission to use this command.")
+
+
 
 # Rest of your bot code
 
