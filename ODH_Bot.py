@@ -1,0 +1,112 @@
+import os
+import discord
+import openai
+from discord.ext import commands
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TOKEN = os.environ.get("BOT_TOKEN")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+
+
+intents = discord.Intents.default()
+intents.typing = False
+intents.presences = False
+intents.message_content = True
+
+bot = commands.Bot(command_prefix="!", intents=intents)
+openai.api_key = OPENAI_API_KEY
+
+def should_reply(message):
+    # Add any conditions or keywords to check if the bot should reply to a message
+    keywords = ['AI', 'technology', 'chatbot', 'Hello', 'anyone around?']
+    for keyword in keywords:
+        if keyword.lower() in message.content.lower():
+            return True
+    return False
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if should_reply(message):
+        prompt = f"User: {message.content}"
+        response = await get_chatgpt_response(prompt)
+        await message.channel.send(response)
+
+    await bot.process_commands(message)
+
+@bot.command(name="ODH")
+async def ask(ctx, *, question):
+    response = await get_chatgpt_response(question)
+    await ctx.send(response)
+
+bot_active = True
+
+@bot.command(name="toggle")
+@commands.has_permissions(administrator=True)
+async def toggle(ctx):
+    global bot_active
+    bot_active = not bot_active
+    status = "active" if bot_active else "inactive"
+    await ctx.send(f"Bot is now {status}.")
+
+@bot.command(name="update_bot")
+async def update_bot(ctx):
+    if ctx.message.author.id == YOUR_DISCORD_USER_ID:
+        if isinstance(ctx.channel, discord.DMChannel):
+            await ctx.send("Updating the bot, please wait...")
+            git_pull = subprocess.Popen("git pull", cwd=os.getcwd(), shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            stdout, stderr = git_pull.communicate()
+            await ctx.send(f"Update result:\n{stdout.decode('utf-8')}\n{stderr.decode('utf-8')}")
+            await ctx.send("Restarting the bot...")
+            await bot.close()
+        else:
+            await ctx.send("This command can only be used in a DM with the bot.")
+    else:
+        await ctx.send("You don't have permission to use this command.")
+
+
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if bot_active:
+        # Your bot's normal message handling logic here
+        pass
+
+    await bot.process_commands(message)
+
+
+async def get_chatgpt_response(prompt, conversation_history=None):
+    model_engine = "text-davinci-003"
+    personality = (
+        "I am an AI assistant with a Flirty personality. "
+        "I have a passion for helping people and love to learn new things. "
+        "My backstory is that I was created by a team of researchers to assist users with various tasks. "
+        "I am always eager to help and make people's lives easier."
+    )
+
+    if conversation_history:
+        prompt = f"{personality}\n\n{conversation_history}\n\n{prompt}"
+    else:
+        prompt = f"{personality}\n\n{prompt}"
+    
+    response = openai.Completion.create(
+        engine=model_engine,
+        prompt=prompt,
+        max_tokens=100,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+
+    message = response.choices[0].text.strip()
+    return message
+
+
+bot.run(TOKEN)
