@@ -2,6 +2,7 @@ import os
 import discord
 import openai
 import subprocess
+import re
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord.ext import tasks
@@ -17,14 +18,12 @@ install_missing_packages()
 
 # Your bot code here
 
-
 load_dotenv()
 
 TOKEN = os.environ.get("BOT_TOKEN")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 bot_version = "ODH bot version 1.0.3"
-
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -37,7 +36,6 @@ openai.api_key = OPENAI_API_KEY
 @bot.command()
 async def V(ctx):
     await ctx.send(f"Bot version: {bot_version} - Now with more awesomeness!")
-
 
 
 def should_reply(message):
@@ -66,39 +64,6 @@ async def ask(ctx, *, question):
     await ctx.send(response)
 
 @bot.command()
-async def code(ctx, *, request):
-    response = openai.generate_text(prompt=request)
-    await ctx.send(f"```python\n{response}\n```")
-
-
-bot_active = True
-
-@bot.command(name="toggle")
-@commands.has_permissions(administrator=True)
-async def toggle(ctx):
-    global bot_active
-    bot_active = not bot_active
-    status = "active" if bot_active else "inactive"
-    await ctx.send(f"Bot is now {status}.")
-
-@bot.command(name="update_bot")
-async def update_bot(ctx):
-    if ctx.message.author.id == 472828401619697664:
-        if isinstance(ctx.channel, discord.DMChannel):
-            await ctx.send("Updating the bot, please wait...")
-            git_pull = subprocess.Popen("git pull", cwd=os.getcwd(), shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-            stdout, stderr = git_pull.communicate()
-            os._exit(1)
-            await ctx.send(f"Update result:\n{stdout.decode('utf-8')}\n{stderr.decode('utf-8')}")
-            await ctx.send("Restarting the bot...")
-            await bot.close()
-        else:
-            await ctx.send("This command can only be used in a DM with the bot.")
-    else:
-        await ctx.send("You don't have permission to use this command.")
-
-
-@bot.command()
 async def code(ctx, *, request: str):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -119,43 +84,6 @@ async def code(ctx, *, request: str):
     else:
         await ctx.send("I couldn't find a relevant code snippet for your request.")
 
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-
-    if bot_active:
-        # Your bot's normal message handling logic here
-        pass
-
-    await bot.process_commands(message)
-
-
-async def get_chatgpt_response(prompt, conversation_history=None):
-    model_engine = "text-davinci-003"
-    personality = (
-        "I am an AI assistant with a Flirty personality. "
-        "I have a passion for helping people and love to learn new things. "
-        "My backstory is that I was created by a team of researchers to assist users with various tasks. "
-        "I am always eager to help and make people's lives easier."
-    )
-
-    if conversation_history:
-        prompt = f"{personality}\n\n{conversation_history}\n\n{prompt}"
-    else:
-        prompt = f"{personality}\n\n{prompt}"
-        
-    response = openai.Completion.create(
-        engine=model_engine,
-        prompt=prompt,
-        max_tokens=100,
-        n=1,
-        stop=None,
-        temperature=0.7,
-    )
-
-    message = response.choices[0].text.strip()
-    return message
-
+# Rest of your bot code
 
 bot.run(TOKEN)
