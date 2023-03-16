@@ -42,9 +42,6 @@ def get_git_commit_hash():
         print(f"Error getting git commit hash: {e}")
         return None
 
-@bot.command()
-async def V(ctx):
-    await ctx.send(f"Bot version: {bot_version} - Now with more awesomeness!")
 
 def should_reply(message):
     if message.author == bot.user:
@@ -57,6 +54,12 @@ def should_reply(message):
         return False
 
     return BOT_NAME.lower() in message.content.lower()
+
+
+
+@bot.command()
+async def V(ctx):
+    await ctx.send(f"Bot version: {bot_version} - Now with more awesomeness!")
 
 
 @bot.command(name="update_bot")
