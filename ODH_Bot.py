@@ -24,7 +24,7 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 BOT_NAME = os.environ.get("BOT_NAME")
 DISCORD_USER_ID = os.environ.get("DISCORD_USER_ID")
 
-bot_version = "ODH bot version 1.0.9"
+bot_version = "ODH bot version 1.0.10"
 
 intents = discord.Intents.default()
 intents.typing = False
