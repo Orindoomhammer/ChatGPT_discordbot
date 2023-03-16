@@ -34,6 +34,14 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="Echo ", intents=intents)
 openai.api_key = OPENAI_API_KEY
 
+def get_git_commit_hash():
+    try:
+        commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode("utf-8")
+        return commit_hash
+    except subprocess.CalledProcessError as e:
+        print(f"Error getting git commit hash: {e}")
+        return None
+
 @bot.command()
 async def V(ctx):
     await ctx.send(f"Bot version: {bot_version} - Now with more awesomeness!")
@@ -100,5 +108,10 @@ async def get_chatgpt_response(prompt, conversation_history=None):
 
     message = response.choices[0].text.strip()
     return message
+
+commit_hash = get_git_commit_hash()
+if commit_hash:
+    print(f"Bot is running on commit: {commit_hash}")
+
 
 bot.run(TOKEN)
