@@ -23,7 +23,7 @@ load_dotenv()
 TOKEN = os.environ.get("BOT_TOKEN")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-bot_version = "ODH bot version 1.0.2"
+bot_version = "ODH bot version 1.0.3"
 
 
 intents = discord.Intents.default()
