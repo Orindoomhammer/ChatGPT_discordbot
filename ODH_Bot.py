@@ -1,6 +1,7 @@
 import os
 import discord
 import openai
+import subprocess
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -55,7 +56,7 @@ async def toggle(ctx):
 
 @bot.command(name="update_bot")
 async def update_bot(ctx):
-    if ctx.message.author.id == YOUR_DISCORD_USER_ID:
+    if ctx.message.author.id == 472828401619697664:
         if isinstance(ctx.channel, discord.DMChannel):
             await ctx.send("Updating the bot, please wait...")
             git_pull = subprocess.Popen("git pull", cwd=os.getcwd(), shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
