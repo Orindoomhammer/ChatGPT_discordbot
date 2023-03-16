@@ -41,29 +41,26 @@ async def V(ctx):
 def should_reply(message):
     return BOT_NAME.lower() in message.content.lower()
 
-
-import subprocess
-
-@bot.command(name="Execute order 66")
+@bot.command(name="Execute order 66", aliases=['execute'])
 async def update_bot(ctx):
     if ctx.message.author.id == DISCORD_USER_ID:
         if isinstance(ctx.channel, discord.DMChannel):
-            await ctx.send("Updating the bot, please wait...")
+            await ctx.send("As you wish, my lord. Updating the bot, please wait...")
 
             try:
                 subprocess.run(["git", "fetch", "--all"], check=True)
                 subprocess.run(["git", "reset", "--hard", "origin/master"], check=True)
 
-                await ctx.send("Bot has been updated successfully. Restarting...")
+                await ctx.send("The bot has been updated, and the Jedi have been defeated. Restarting...")
             except subprocess.CalledProcessError as e:
-                await ctx.send(f"An error occurred while updating: {e}")
+                await ctx.send(f"An unexpected disturbance in the Force: {e}")
 
             await bot.close()
             sys.exit(1)
         else:
-            await ctx.send("This command can only be used in a DM with the bot.")
+            await ctx.send("This command can only be used in a DM with the bot, my lord.")
     else:
-        await ctx.send("You don't have permission to use this command.")
+        await ctx.send("I'm sorry, but you don't have the authority to execute Order 66.")
 
 @bot.event
 async def on_message(message):
