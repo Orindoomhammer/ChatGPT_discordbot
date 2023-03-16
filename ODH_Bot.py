@@ -4,6 +4,7 @@ import openai
 import subprocess
 from discord.ext import commands
 from dotenv import load_dotenv
+from discord.ext import tasks
 
 def install_missing_packages():
     try:
