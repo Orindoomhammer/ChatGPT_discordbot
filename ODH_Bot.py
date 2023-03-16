@@ -20,7 +20,7 @@ def load_config(file_path):
     with open(file_path, 'r') as file:
         return yaml.safe_load(file)
 
-config = load_config('config.yaml')
+config = load_config('app.yaml')
 TOKEN = config['bot']['token']
 OPENAI_API_KEY = config['openai']['api_key']
 BOT_NAME = config['bot']['name']
