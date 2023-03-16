@@ -98,6 +98,26 @@ async def update_bot(ctx):
         await ctx.send("You don't have permission to use this command.")
 
 
+@bot.command()
+async def code(ctx, *, request: str):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant that provides code snippets."},
+            {"role": "user", "content": request},
+        ],
+        max_tokens=100,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+
+    answer = response.choices[0].message['content']
+    code_snippet = re.findall(r"```[\s\S]*?```", answer)
+    if code_snippet:
+        await ctx.send(code_snippet[0])
+    else:
+        await ctx.send("I couldn't find a relevant code snippet for your request.")
 
 @bot.event
 async def on_message(message):
