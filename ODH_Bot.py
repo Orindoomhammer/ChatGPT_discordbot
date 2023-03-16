@@ -65,6 +65,12 @@ async def ask(ctx, *, question):
     response = await get_chatgpt_response(question)
     await ctx.send(response)
 
+@bot.command()
+async def code(ctx, *, request):
+    response = openai.generate_text(prompt=request)
+    await ctx.send(f"```python\n{response}\n```")
+
+
 bot_active = True
 
 @bot.command(name="toggle")
