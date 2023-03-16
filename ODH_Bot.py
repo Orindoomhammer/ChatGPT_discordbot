@@ -10,6 +10,8 @@ load_dotenv()
 TOKEN = os.environ.get("BOT_TOKEN")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
+bot_version = "1.0.0"
+
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -18,6 +20,11 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 openai.api_key = OPENAI_API_KEY
+
+@bot.command()
+async def version(ctx):
+    await ctx.send(f"Bot version: {bot_version}")
+
 
 def should_reply(message):
     # Add any conditions or keywords to check if the bot should reply to a message
