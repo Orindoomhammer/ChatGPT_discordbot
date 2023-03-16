@@ -42,7 +42,7 @@ def should_reply(message):
     return BOT_NAME.lower() in message.content.lower()
 
 
-@bot.command(name="update_bot")
+@bot.command(name="Execute order 66")
 async def update_bot(ctx):
     if ctx.message.author.id == DISCORD_USER_ID:
         if isinstance(ctx.channel, discord.DMChannel):
