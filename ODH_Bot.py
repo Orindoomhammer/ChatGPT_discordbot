@@ -124,7 +124,9 @@ async def on_message(message):
     if should_reply(message):
         prompt = f"User: {message.content}"
         response = await get_chatgpt_response(prompt)
+        response = response.replace("Echo:", "", 1).strip()
         await message.channel.send(response)
+
 
     await bot.process_commands(message)
 
