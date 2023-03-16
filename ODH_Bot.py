@@ -3,6 +3,7 @@ import discord
 import openai
 import subprocess
 import re
+import sys
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord.ext import tasks
@@ -38,6 +39,19 @@ async def V(ctx):
 
 def should_reply(message):
     return BOT_NAME.lower() in message.content.lower()
+
+
+@bot.command(name="update_bot")
+async def update_bot(ctx):
+    if ctx.message.author.id == 472828401619697664:
+        if isinstance(ctx.channel, discord.DMChannel):
+            await ctx.send("Updating the bot, please wait...")
+            await bot.close()
+            sys.exit(1)
+        else:
+            await ctx.send("This command can only be used in a DM with the bot.")
+    else:
+        await ctx.send("You don't have permission to use this command.")
 
 @bot.event
 async def on_message(message):
