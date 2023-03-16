@@ -3,7 +3,7 @@ import discord
 import openai
 import subprocess
 import re
-import yaml
+#Simport yaml
 from discord.ext import commands
 from discord.ext import tasks
 
