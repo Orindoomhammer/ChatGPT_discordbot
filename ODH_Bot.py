@@ -10,7 +10,7 @@ load_dotenv()
 TOKEN = os.environ.get("BOT_TOKEN")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-bot_version = "1.0.0"
+bot_version = "ODH bot version 1.0.1"
 
 
 intents = discord.Intents.default()
@@ -23,7 +23,8 @@ openai.api_key = OPENAI_API_KEY
 
 @bot.command()
 async def version(ctx):
-    await ctx.send(f"Bot version: {bot_version}")
+    await ctx.send(f"Bot version: {bot_version} - Now with more awesomeness!")
+
 
 
 def should_reply(message):
