@@ -25,7 +25,7 @@ BOT_NAME = os.environ.get("BOT_NAME")
 DISCORD_USER_ID = int(os.environ.get("DISCORD_USER_ID"))
 TOPICS = os.environ.get("TOPICS")
 
-bot_version = "ODH bot version 1.0.11"
+bot_version = "ODH bot version 1.0.12"
 
 intents = discord.Intents.default()
 intents.typing = False
