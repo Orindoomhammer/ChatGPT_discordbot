@@ -47,7 +47,17 @@ async def V(ctx):
     await ctx.send(f"Bot version: {bot_version} - Now with more awesomeness!")
 
 def should_reply(message):
+    if message.author == bot.user:
+        return False
+
+    if message.content.startswith('!'):
+        return False
+
+    if message.content.startswith('@'):
+        return False
+
     return BOT_NAME.lower() in message.content.lower()
+
 
 @bot.command(name="Execute", aliases=["Execute_order_66", "Execute_order"])
 async def update_bot(ctx):
