@@ -22,7 +22,7 @@ load_dotenv()
 TOKEN = os.environ.get("BOT_TOKEN")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 BOT_NAME = os.environ.get("BOT_NAME")
-DISCORD_USER_ID = os.environ.get("DISCORD_USER_ID")
+DISCORD_USER_ID = int(os.environ.get("DISCORD_USER_ID"))
 
 bot_version = "ODH bot version 1.0.10"
 
