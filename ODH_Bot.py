@@ -68,6 +68,7 @@ async def update_bot(ctx):
             await ctx.send("Updating the bot, please wait...")
             git_pull = subprocess.Popen("git pull", cwd=os.getcwd(), shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
             stdout, stderr = git_pull.communicate()
+            os._exit(1)
             await ctx.send(f"Update result:\n{stdout.decode('utf-8')}\n{stderr.decode('utf-8')}")
             await ctx.send("Restarting the bot...")
             await bot.close()
