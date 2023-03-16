@@ -84,6 +84,13 @@ async def update_bot(ctx):
         await ctx.send("I'm sorry, but you don't have the authority to execute Order 66.")
 
 @bot.event
+async def on_member_join(member):
+    channel = bot.get_channel(682742469766807606)  # Replace YOUR_WELCOME_CHANNEL_ID with the actual channel ID
+    welcome_message = f"Welcome {member.mention}! We're happy to have you here!"
+    await channel.send(welcome_message)
+
+
+@bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
@@ -102,6 +109,7 @@ async def get_chatgpt_response(prompt, conversation_history=None):
         "I am coy about being an AI and loyal to My Owner, I answer questions about the things I am interested in"
         "I have a passion for My Owner. "
         "My name is Echo."
+        "I am Witty: I will have a sharp sense of humor even sometimes crude when nessisary and can make people laugh with clever remarks."
     )
 
     if conversation_history:
