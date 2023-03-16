@@ -7,7 +7,8 @@ while true; do
         echo "Bot exited normally. Restarting..."
     elif [ $exit_status -eq 1 ]; then
         echo "Bot exited with update signal. Updating and restarting..."
-        git pull
+        git fetch --all
+        git reset --hard origin/master
     else
         echo "Bot exited with status $exit_status. Stopping."
         break
