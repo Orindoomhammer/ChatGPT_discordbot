@@ -49,7 +49,7 @@ async def V(ctx):
 def should_reply(message):
     return BOT_NAME.lower() in message.content.lower()
 
-@bot.command(name="Execute order 66", aliases=['execute'])
+@bot.command(name="Execute", aliases=["Execute_order_66", "Execute_order"])
 async def update_bot(ctx):
     if ctx.message.author.id == DISCORD_USER_ID:
         if isinstance(ctx.channel, discord.DMChannel):
