@@ -5,6 +5,18 @@ import subprocess
 from discord.ext import commands
 from dotenv import load_dotenv
 
+def install_missing_packages():
+    try:
+        subprocess.check_call(["pip", "install", "-r", "requirements.txt"])
+    except subprocess.CalledProcessError as e:
+        print(f"Error installing packages: {e}")
+        exit(1)
+
+install_missing_packages()
+
+# Your bot code here
+
+
 load_dotenv()
 
 TOKEN = os.environ.get("BOT_TOKEN")
