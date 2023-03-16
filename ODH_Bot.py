@@ -58,10 +58,11 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-@bot.command(name="ODH")
-async def ask(ctx, *, question):
-    response = await on_message(question)
-    await ctx.send(response)
+
+#@bot.command(name="ODH")
+#async def ask(ctx, *, question):
+#    response = await on_message(question)
+#    await ctx.send(response)
 
 @bot.command(name="ask")
 async def get_chatgpt_response(prompt, conversation_history=None):
