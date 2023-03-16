@@ -42,20 +42,28 @@ def should_reply(message):
     return BOT_NAME.lower() in message.content.lower()
 
 
-@bot.command(name="Execute", aliases=["Execute_order_66", "Execute_order"])
-async def update_bot(ctx, *args):
+import subprocess
+
+@bot.command(name="Execute order 66")
+async def update_bot(ctx):
     if ctx.message.author.id == DISCORD_USER_ID:
         if isinstance(ctx.channel, discord.DMChannel):
-            if len(args) == 2 and args[0].lower() == "order" and args[1] == "66":
-                await ctx.send("Yes, my Lord. Executing Order 66. Updating the bot, please wait...")
-                await bot.close()
-                sys.exit(1)
-            else:
-                await ctx.send("Invalid command, my Lord. The correct usage is: Execute order 66")
+            await ctx.send("Updating the bot, please wait...")
+
+            try:
+                subprocess.run(["git", "fetch", "--all"], check=True)
+                subprocess.run(["git", "reset", "--hard", "origin/master"], check=True)
+
+                await ctx.send("Bot has been updated successfully. Restarting...")
+            except subprocess.CalledProcessError as e:
+                await ctx.send(f"An error occurred while updating: {e}")
+
+            await bot.close()
+            sys.exit(1)
         else:
-            await ctx.send("Apologies, my Lord. This command can only be used in a DM with the bot.")
+            await ctx.send("This command can only be used in a DM with the bot.")
     else:
-        await ctx.send("You lack the authority to command me, insignificant one.")
+        await ctx.send("You don't have permission to use this command.")
 
 @bot.event
 async def on_message(message):
