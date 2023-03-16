@@ -7,6 +7,9 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from discord.ext import tasks
 
+global bot_active
+
+
 def install_missing_packages():
     try:
         subprocess.check_call(["pip", "install", "-r", "requirements.txt"])
@@ -23,7 +26,7 @@ load_dotenv()
 TOKEN = os.environ.get("BOT_TOKEN")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-bot_version = "ODH bot version 1.0.6"
+bot_version = "ODH bot version 1.0.9"
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -51,13 +54,13 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if should_reply(message):
-        prompt = f"User: {message.content}"
-        response = await get_chatgpt_response(prompt)
-        await message.channel.send(response)
+    if bot_active:
+        if should_reply(message):
+            prompt = f"User: {message.content}"
+            response = await get_chatgpt_response(prompt)
+            await message.channel.send(response)
 
     await bot.process_commands(message)
-
 
 #@bot.command(name="ODH")
 #async def ask(ctx, *, question):
