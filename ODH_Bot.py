@@ -33,7 +33,7 @@ intents.typing = False
 intents.presences = False
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix="Echo", intents=intents)
 openai.api_key = OPENAI_API_KEY
 
 @bot.command()
