@@ -22,6 +22,7 @@ load_dotenv()
 TOKEN = os.environ.get("BOT_TOKEN")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 BOT_NAME = os.environ.get("BOT_NAME")
+DISCORD_USER_ID = os.environ.get("DISCORD_USER_ID")
 
 bot_version = "ODH bot version 1.0.9"
 
@@ -30,7 +31,7 @@ intents.typing = False
 intents.presences = False
 intents.message_content = True
 
-bot = commands.Bot(intents=intents)
+bot = commands.Bot(command_prefix="Echo ", intents=intents)
 openai.api_key = OPENAI_API_KEY
 
 @bot.command()
@@ -43,7 +44,7 @@ def should_reply(message):
 
 @bot.command(name="update_bot")
 async def update_bot(ctx):
-    if ctx.message.author.id == 472828401619697664:
+    if ctx.message.author.id == DISCORD_USER_ID:
         if isinstance(ctx.channel, discord.DMChannel):
             await ctx.send("Updating the bot, please wait...")
             await bot.close()
