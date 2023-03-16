@@ -21,7 +21,7 @@ openai.api_key = OPENAI_API_KEY
 
 def should_reply(message):
     # Add any conditions or keywords to check if the bot should reply to a message
-    keywords = ['AI', 'technology', 'chatbot', 'Hello', 'anyone around?']
+    keywords = ['AI', 'technology', 'chatbot', 'bot', 'Hello', 'anyone around?']
     for keyword in keywords:
         if keyword.lower() in message.content.lower():
             return True
@@ -96,7 +96,7 @@ async def get_chatgpt_response(prompt, conversation_history=None):
         prompt = f"{personality}\n\n{conversation_history}\n\n{prompt}"
     else:
         prompt = f"{personality}\n\n{prompt}"
-    
+        
     response = openai.Completion.create(
         engine=model_engine,
         prompt=prompt,
