@@ -22,7 +22,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 openai.api_key = OPENAI_API_KEY
 
 @bot.command()
-async def version(ctx):
+async def V(ctx):
     await ctx.send(f"Bot version: {bot_version} - Now with more awesomeness!")
 
 
