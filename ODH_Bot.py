@@ -82,10 +82,11 @@ def should_reply(message):
     return BOT_NAME.lower() in message.content.lower()
 
 
-
 @bot.command()
 async def V(ctx):
-    await ctx.send(f"Bot version: {bot_version} - Now with more awesomeness!")
+    prompt = "Generate a random Russian phrase about updating the bot."
+    random_russian_phrase = await get_chatgpt_response(prompt)
+    await ctx.send(f"Bot version: {bot_version} - {random_russian_phrase}")
 
 
 @bot.command(name="update_bot")
