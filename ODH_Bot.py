@@ -23,6 +23,7 @@ TOKEN = os.environ.get("BOT_TOKEN")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 BOT_NAME = os.environ.get("BOT_NAME")
 DISCORD_USER_ID = int(os.environ.get("DISCORD_USER_ID"))
+TOPICS = os.environ.get("TOPICS")
 
 bot_version = "ODH bot version 1.0.11"
 
@@ -42,7 +43,27 @@ def get_git_commit_hash():
         print(f"Error getting git commit hash: {e}")
         return None
 
+bot_active = True
 
+@bot.command(name="toggle")
+@commands.has_permissions(administrator=True)
+async def toggle(ctx):
+    global bot_active
+    bot_active = not bot_active
+    status = "active" if bot_active else "inactive"
+    await ctx.send(f"Bot is now {status}.")
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if bot_active:
+        # Your bot's normal message handling logic here
+        pass
+
+    await bot.process_commands(message)
+    
 def should_reply(message):
     if message.author == bot.user:
         return False
@@ -52,6 +73,11 @@ def should_reply(message):
 
     if message.content.startswith('@'):
         return False
+
+    # Assuming TOPICS is a list of topics, you can check if any topic is present in the message content
+    for topic in TOPICS:
+        if topic.lower() in message.content.lower():
+            return True
 
     return BOT_NAME.lower() in message.content.lower()
 
