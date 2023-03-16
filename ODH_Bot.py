@@ -3,8 +3,8 @@ import discord
 import openai
 import subprocess
 import re
-#Simport yaml
 from discord.ext import commands
+from dotenv import load_dotenv
 from discord.ext import tasks
 
 def install_missing_packages():
@@ -16,16 +16,13 @@ def install_missing_packages():
 
 install_missing_packages()
 
-def load_config(file_path):
-    with open(file_path, 'r') as file:
-        return yaml.safe_load(file)
+load_dotenv()
 
-config = load_config('app.yaml')
-TOKEN = config['bot']['token']
-OPENAI_API_KEY = config['openai']['api_key']
-BOT_NAME = config['bot']['name']
+TOKEN = os.environ.get("BOT_TOKEN")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+BOT_NAME = os.environ.get("BOT_NAME")
 
-bot_version = "ODH bot version 1.0.10"
+bot_version = "ODH bot version 1.0.9"
 
 intents = discord.Intents.default()
 intents.typing = False
