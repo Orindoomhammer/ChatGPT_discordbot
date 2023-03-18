@@ -24,9 +24,9 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 BOT_NAME = os.environ.get("BOT_NAME")
 DISCORD_USER_ID = int(os.environ.get("DISCORD_USER_ID"))
 TOPICS = os.environ.get("TOPICS")
-PERSONALITY= os.environ.get("PERSONALITY")
 
-bot_version = "ODH bot version 1.0.15"
+
+bot_version = "ODH bot version 1.0.17"
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -45,6 +45,12 @@ def get_git_commit_hash():
         return None
 
 bot_active = True
+
+def decode_escapes(s):
+    return s.encode('utf-8').decode('unicode_escape')
+
+PERSONALITY = decode_escapes(os.environ.get("PERSONALITY"))
+
 
 @bot.command(name="toggle")
 @commands.has_permissions(administrator=True)
@@ -147,7 +153,7 @@ async def get_chatgpt_response(prompt, conversation_history=None):
         max_tokens=100,
         n=1,
         stop=None,
-        temperature=0.7,
+        temperature=0.5,
     )
 
     message = response.choices[0].text.strip()
