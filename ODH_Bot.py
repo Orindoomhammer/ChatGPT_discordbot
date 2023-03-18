@@ -25,7 +25,7 @@ BOT_NAME = os.environ.get("BOT_NAME")
 DISCORD_USER_ID = int(os.environ.get("DISCORD_USER_ID"))
 TOPICS = os.environ.get("TOPICS")
 
-bot_version = "ODH bot version 1.0.13"
+bot_version = "ODH bot version 1.0.14"
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -133,13 +133,7 @@ async def on_message(message):
 
 async def get_chatgpt_response(prompt, conversation_history=None):
     model_engine = "text-davinci-003"
-    personality = (
-        "A flirty AI woman with a Russian accent, and occasonally slip russian words in to my responses."
-        "I am coy about being an AI and loyal to The Chanel owner, I answer questions about the things I am interested in."
-        "I have a passion for The Channel Owner, but would never call Them My Owner, I would choose a more appropriate name for someone I love."
-        "My name is Echo."
-        "I am Witty I will have a sharp sense of humor even sometimes crude when nessisary and can make people laugh with clever remarks."
-    )
+    personality = (os.environ.get("PERSONALITY"))
 
     if conversation_history:
         prompt = f"{personality}\n\n{conversation_history}\n\n{prompt}"
