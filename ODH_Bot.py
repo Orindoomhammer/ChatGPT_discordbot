@@ -24,8 +24,9 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 BOT_NAME = os.environ.get("BOT_NAME")
 DISCORD_USER_ID = int(os.environ.get("DISCORD_USER_ID"))
 TOPICS = os.environ.get("TOPICS")
+PERSONALITY= os.environ.get("PERSONALITY")
 
-bot_version = "ODH bot version 1.0.14"
+bot_version = "ODH bot version 1.0.15"
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -133,7 +134,7 @@ async def on_message(message):
 
 async def get_chatgpt_response(prompt, conversation_history=None):
     model_engine = "text-davinci-003"
-    personality = (os.environ.get("PERSONALITY"))
+    personality = (PERSONALITY)
 
     if conversation_history:
         prompt = f"{personality}\n\n{conversation_history}\n\n{prompt}"
