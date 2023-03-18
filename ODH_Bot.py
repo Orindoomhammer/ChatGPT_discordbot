@@ -96,7 +96,7 @@ async def V(ctx):
     await ctx.send(f"Bot version: {bot_version} - {random_russian_phrase}")
 
 
-@bot.command(name="update_bot")
+@bot.command(name="You_have_an_update")
 async def update_bot(ctx):
     if ctx.message.author.id == DISCORD_USER_ID:
         if isinstance(ctx.channel, discord.DMChannel):
