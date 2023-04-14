@@ -4,6 +4,8 @@ import openai
 import subprocess
 import re
 import sys
+import youtube_dl
+from discord import FFmpegPCMAudio
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord.ext import tasks
@@ -24,6 +26,8 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 BOT_NAME = os.environ.get("BOT_NAME")
 DISCORD_USER_ID = int(os.environ.get("DISCORD_USER_ID"))
 TOPICS = os.environ.get("TOPICS")
+
+
 
 
 bot_version = "ODH bot version 1.0.17"
@@ -50,7 +54,7 @@ def decode_escapes(s):
     return s.encode('utf-8').decode('unicode_escape')
 
 PERSONALITY = decode_escapes(os.environ.get("PERSONALITY"))
-
+RULES = decode_escapes(os.environ.get("RULES"))
 
 @bot.command(name="toggle")
 @commands.has_permissions(administrator=True)
@@ -123,6 +127,19 @@ async def on_member_join(member):
     welcome_message = f"Welcome {member.mention}! We're happy to have you here!"
     await channel.send(welcome_message)
 
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    # Check for slurs in the message content
+    #if any(slur.lower() in message.content.lower() for slur in SLURS):
+        # Delete the message
+    #    await message.delete()
+    #else:
+        # Process the message as usual
+     #   pass
+
 
 @bot.event
 async def on_message(message):
@@ -139,7 +156,7 @@ async def on_message(message):
     await bot.process_commands(message)
 
 async def get_chatgpt_response(prompt, conversation_history=None):
-    model_engine = "text-davinci-003"
+    model_engine = "gpt-3.5-turbo-0301"
     personality = (PERSONALITY)
 
     if conversation_history:
