@@ -32,8 +32,9 @@ OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 BOT_OWNER_ID = int(os.environ.get('DISCORD_USER_ID'))
 TOPICS = os.environ.get('TOPICS').split(',')
 RULES = os.environ.get('RULES')
+PERSONALITY = os.environ.get('PERSONALITY')
 
-org-55oQ25gOqyvrUaaIpKmtl7tU
+
 
 intents = discord.Intents.default()
 intents.typing = False
